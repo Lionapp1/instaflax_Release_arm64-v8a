@@ -1,0 +1,22 @@
+name: Create Release
+
+# Workflow'un tetikleneceği koşul. Burada etiket oluşturulduğunda tetiklenecek.
+on:
+  push:
+    tags:
+      - 'v*'  # Sadece 'v' ile başlayan etiketler tetiklesin (v1.0.0, v2.1.0, vb.)
+
+jobs:
+  release:
+    runs-on: ubuntu-latest  # İş akışı Ubuntu üzerinde çalışacak
+
+    steps:
+      # Adım 1: Repository'i çek
+      - name: Checkout repository
+        uses: actions/checkout@v2  # Repository'yi çekmek için GitHub Action'ı
+
+      # Adım 2: GitHub Release oluştur
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1  # GitHub release oluşturma işlemi için kullanılan action
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # GitHub API erişimi için gerekli olan token, otomatik olarak sağlanır
